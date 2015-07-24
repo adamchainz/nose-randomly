@@ -34,11 +34,17 @@ class RandomlyPlugin(Plugin):
         """
         super(RandomlyPlugin, self).configure(options, conf)
 
+        if not self.enabled:
+            return
+
         self.random_seed = options.random_seed
         if self.random_seed is None:
             self.random_seed = int(time.time())
 
     def setOutputStream(self, stream):
+        if not self.enabled:
+            return
+
         self.output_stream = stream
         print(
             "Using --randomly-seed={seed}".format(seed=self.random_seed),
@@ -46,6 +52,9 @@ class RandomlyPlugin(Plugin):
         )
 
     def startTest(self, test):
+        if not self.enabled:
+            return
+
         random.seed(self.random_seed)
 
         if have_factory_boy:
@@ -65,6 +74,9 @@ class RandomlyPlugin(Plugin):
         interfering with other plugins (if you return anything, no other plugin
         may do anything to the loader).
         """
+        if not self.enabled:
+            return
+
         the_seed = self.random_seed
 
         class ShuffledLoader(loader.__class__):

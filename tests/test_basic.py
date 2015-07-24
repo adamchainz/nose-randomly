@@ -23,7 +23,10 @@ class RandomlyPluginTester(PluginTester):
         return os.path.join(fixtures, self.fixture_suite)
 
 
-class ShuffledModuleTest(RandomlyPluginTester, TestCase):
+class ShuffledCasesInModuleTest(RandomlyPluginTester, TestCase):
+    """
+    Check that the cases inside a module are shuffled.
+    """
     args = ['-v']
     if sys.version_info >= (3, 0):  # Python 3 random changes
         args.append('--randomly-seed=38')
@@ -43,7 +46,10 @@ class ShuffledModuleTest(RandomlyPluginTester, TestCase):
         )
 
 
-class ShuffledTestCaseTest(RandomlyPluginTester, TestCase):
+class ShuffledTestsInTestCaseTest(RandomlyPluginTester, TestCase):
+    """
+    Check that the tests inside a case are shuffled.
+    """
     args = ['-v']
     if sys.version_info >= (3, 0):  # Python 3 random changes
         args.append('--randomly-seed=126')
@@ -60,4 +66,22 @@ class ShuffledTestCaseTest(RandomlyPluginTester, TestCase):
              'test_B (abcd_tests.Tests) ... ok',
              'test_C (abcd_tests.Tests) ... ok',
              'test_A (abcd_tests.Tests) ... ok']
+        )
+
+
+class NotAlwaysOnTests(RandomlyPluginTester, TestCase):
+    """
+    Check that if we don't activate the plugin using --with-randomly, then it
+    doesn't do any shuffling or output.
+    """
+    activate = '-v'  # Abuse of this to fill in args - it can't be None :(
+    fixture_suite = 'abcd_tests.py'
+
+    def runTest(self):
+        self.assertEqual(
+            [line.strip() for line in self.output][:4],
+            ['test_A (abcd_tests.Tests) ... ok',
+             'test_B (abcd_tests.Tests) ... ok',
+             'test_C (abcd_tests.Tests) ... ok',
+             'test_D (abcd_tests.Tests) ... ok']
         )
