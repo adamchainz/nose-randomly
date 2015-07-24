@@ -14,7 +14,7 @@ Nose plugin to randomly order tests and control ``random.seed``.
 Features
 --------
 
-All of these features default on but can be disabled with commandline flags.
+All of these features are on by default but can be disabled with flags.
 
 * Randomly shuffles the submodules, ``TestCase`` classes + test functions when
   loading a module of tests.
@@ -27,6 +27,22 @@ All of these features default on but can be disabled with commandline flags.
   is installed, its random state is reset at the start of every test. This
   allows for repeatable use of its random 'fuzzy' features.
 
+About
+-----
+
+Randomness in testing can be quite powerful to discover hidden flaws in the
+tests themselves, as well as giving a little more coverage to your system.
+
+By randomly ordering the tests, the risk of surprising inter-test dependencies
+is reduced - a technique used in many places, for example Google's C++ test
+runner `googletest
+<https://code.google.com/p/googletest/wiki/V1_5_AdvancedGuide#Shuffling_the_Tests>`_.
+
+By resetting the random seed to a repeatable number for each test, tests can
+create data based on random numbers and yet remain repeatable, for example
+factory boy's fuzzy values. This is good for ensuring that tests specify the
+data they need and that the tested system is not affected by any data that is
+filled in randomly due to not being specified.
 
 Usage
 -----
@@ -69,3 +85,16 @@ You can disable behaviours you don't like with the following flags:
   inside ``TestCase`` classes
 * ``--randomly-dont-reset-seed`` - turn off the reset of ``random.seed()`` at
   the start of every test
+
+
+History
+-------
+
+`nose` has an `unmerged pull request
+<https://code.google.com/p/python-nose/issues/detail?id=255>`_ from 2009 to add
+random ordering functionality. This is available in plugin format in the
+`nose-randomize <https://github.com/nloadholtes/nose-randomize/>`_ package. It
+works quite well but I found that since it replaces all of the test loading
+machinery inside `nose`, it can interact badly with other plugins. This plugin
+was developed as a thinner layer to achieve the same thing, plus the random
+seed restting which was not available before.
