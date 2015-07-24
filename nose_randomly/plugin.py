@@ -46,6 +46,12 @@ class RandomlyPlugin(Plugin):
             help="""Stop nose-randomly from shuffling the tests inside TestCase
                     classes"""
         )
+        parser.add_option(
+            '--randomly-dont-reset-seed', action='store_false',
+            dest='reset_seed', default=True,
+            help="""Stop nose-randomly from resetting random.seed() at the
+                    start of every test."""
+        )
 
     def configure(self, options, conf):
         """
@@ -63,19 +69,22 @@ class RandomlyPlugin(Plugin):
             return
 
         self.output_stream = stream
-        print(
-            "Using --randomly-seed={seed}".format(seed=self.options.seed),
-            file=self.output_stream
-        )
+
+        if self.options.reset_seed:
+            print(
+                "Using --randomly-seed={seed}".format(seed=self.options.seed),
+                file=self.output_stream
+            )
 
     def startTest(self, test):
         if not self.enabled:
             return
 
-        random.seed(self.options.seed)
+        if self.options.reset_seed:
+            random.seed(self.options.seed)
 
-        if have_factory_boy:
-            factory_set_random_state(random.getstate())
+            if have_factory_boy:
+                factory_set_random_state(random.getstate())
 
     def prepareTestLoader(self, loader):
         """

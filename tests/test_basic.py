@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 import os
 import sys
-from itertools import islice
 from unittest import TestCase
 
 from nose.plugins import PluginTester
@@ -28,7 +27,8 @@ class RandomlyPluginTester(PluginTester):
         return os.path.join(fixtures, self.fixture_suite)
 
     def check_output_like(self, lines):
-        output = [line.strip() for line in islice(self.output, len(lines))]
+        self.output = list(self.output)
+        output = [line.strip() for line in self.output[:len(lines)]]
         self.assertEqual(output, lines)
 
 
@@ -148,4 +148,35 @@ class NotAlwaysOnTests(RandomlyPluginTester, TestCase):
             'test_B (abcd_tests.Tests) ... ok',
             'test_C (abcd_tests.Tests) ... ok',
             'test_D (abcd_tests.Tests) ... ok'
+        ])
+
+
+class RandomSeedTest(RandomlyPluginTester, TestCase):
+    """
+    Check that the random seed is being set.
+    """
+    args = ['-v', '--randomly-seed=1']
+    fixture_suite = 'random_number.py'
+
+    def runTest(self):
+        # Just runs the test - the remaining logic is in the file itself,
+        # checking that random.random() gives result it should when seed = 1
+        self.check_output_like([
+            'Using --randomly-seed=1',
+            'test_random (random_number.Tests) ... ok'
+        ])
+
+
+class DontRandomSeedTest(RandomlyPluginTester, TestCase):
+    """
+    Check that the random seed is being set.
+    """
+    args = ['-v', '--randomly-dont-reset-seed']
+    fixture_suite = 'random_seed_not_100.py'
+
+    def runTest(self):
+        # Just runs the test - the remaining logic is in the file itself,
+        # checking that random.random() does not look like the seed is 100
+        self.check_output_like([
+            'test_not_reseeded_to_100 (random_seed_not_100.Tests) ... ok'
         ])
