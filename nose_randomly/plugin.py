@@ -3,6 +3,7 @@ from __future__ import division, print_function, unicode_literals
 
 import random
 import time
+import sys
 
 from nose.plugins import Plugin
 from nose.suite import ContextList
@@ -14,6 +15,13 @@ except ImportError:
     have_factory_boy = False
 
 
+# Compat
+if sys.version_info[0] == 2:  # Python 2
+    map_return_type = list
+else:
+    map_return_type = map
+
+
 class RandomlyPlugin(Plugin):
     name = 'randomly'
 
@@ -22,10 +30,21 @@ class RandomlyPlugin(Plugin):
         """
         super(RandomlyPlugin, self).options(parser, env)
         parser.add_option(
-            '--randomly-seed', action='store', dest='random_seed',
-            default=None, type=int,
+            '--randomly-seed', action='store', dest='seed',
+            default=int(time.time()), type=int,
             help="""Set the seed that nose-randomly uses. Default behaviour:
                     use time.time()"""
+        )
+        parser.add_option(
+            '--randomly-dont-shuffle-modules', action='store_false',
+            dest='shuffle_modules', default=True,
+            help="Stop nose-randomly from shuffling the tests inside modules"
+        )
+        parser.add_option(
+            '--randomly-dont-shuffle-cases', action='store_false',
+            dest='shuffle_cases', default=True,
+            help="""Stop nose-randomly from shuffling the tests inside TestCase
+                    classes"""
         )
 
     def configure(self, options, conf):
@@ -37,9 +56,7 @@ class RandomlyPlugin(Plugin):
         if not self.enabled:
             return
 
-        self.random_seed = options.random_seed
-        if self.random_seed is None:
-            self.random_seed = int(time.time())
+        self.options = options
 
     def setOutputStream(self, stream):
         if not self.enabled:
@@ -47,7 +64,7 @@ class RandomlyPlugin(Plugin):
 
         self.output_stream = stream
         print(
-            "Using --randomly-seed={seed}".format(seed=self.random_seed),
+            "Using --randomly-seed={seed}".format(seed=self.options.seed),
             file=self.output_stream
         )
 
@@ -55,7 +72,7 @@ class RandomlyPlugin(Plugin):
         if not self.enabled:
             return
 
-        random.seed(self.random_seed)
+        random.seed(self.options.seed)
 
         if have_factory_boy:
             factory_set_random_state(random.getstate())
@@ -77,7 +94,7 @@ class RandomlyPlugin(Plugin):
         if not self.enabled:
             return
 
-        the_seed = self.random_seed
+        options = self.options
 
         class ShuffledLoader(loader.__class__):
             def loadTestsFromModule(self, *args, **kwargs):
@@ -85,18 +102,21 @@ class RandomlyPlugin(Plugin):
                 Temporarily wrap self.suiteClass with a function that shuffles
                 any ContextList instances that the super() call will pass it.
                 """
-                orig_suiteClass = self.suiteClass
+                if options.shuffle_modules:
+                    orig_suiteClass = self.suiteClass
 
-                def hackSuiteClass(tests):
-                    if isinstance(tests, ContextList):
-                        random.seed(the_seed)
-                        random.shuffle(tests.tests)
-                    return orig_suiteClass(tests)
+                    def hackSuiteClass(tests):
+                        if isinstance(tests, ContextList):
+                            random.seed(options.seed)
+                            random.shuffle(tests.tests)
+                        return orig_suiteClass(tests)
 
-                self.suiteClass = hackSuiteClass
+                    self.suiteClass = hackSuiteClass
                 suite = super(ShuffledLoader, self).loadTestsFromModule(
                     *args, **kwargs)
-                self.suiteClass = orig_suiteClass
+
+                if options.shuffle_modules:
+                    self.suiteClass = orig_suiteClass
 
                 return suite
 
@@ -105,19 +125,23 @@ class RandomlyPlugin(Plugin):
                 Temporarily wrap self.suiteClass with a function that shuffles
                 any list of tests that the super() call will pass it.
                 """
-                orig_suiteClass = self.suiteClass
+                if options.shuffle_cases:
+                    orig_suiteClass = self.suiteClass
 
-                def hackSuiteClass(tests):
-                    if isinstance(tests, (list, map)):  # map is a type on PY3
-                        tests = list(tests)
-                        random.seed(the_seed)
-                        random.shuffle(tests)
-                    return orig_suiteClass(tests)
+                    def hackSuiteClass(tests):
+                        if isinstance(tests, map_return_type):
+                            tests = list(tests)
+                            random.seed(options.seed)
+                            random.shuffle(tests)
+                        return orig_suiteClass(tests)
 
-                self.suiteClass = hackSuiteClass
+                    self.suiteClass = hackSuiteClass
+
                 suite = super(ShuffledLoader, self).loadTestsFromTestCase(
                     testCaseClass)
-                self.suiteClass = orig_suiteClass
+
+                if options.shuffle_cases:
+                    self.suiteClass = orig_suiteClass
 
                 return suite
 
