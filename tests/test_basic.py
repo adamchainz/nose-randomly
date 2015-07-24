@@ -32,6 +32,28 @@ class RandomlyPluginTester(PluginTester):
         self.assertEqual(output, lines)
 
 
+class ShuffledSubmmodulesInPackageTest(RandomlyPluginTester, TestCase):
+    """
+    Check that the submodules inside a package are shuffled.
+    """
+    args = ['-v']
+    if sys.version_info >= (3, 0):  # Python 3 random changes
+        args.append('--randomly-seed=15')
+    else:
+        args.append('--randomly-seed=41')
+
+    fixture_suite = 'abcd_package'
+
+    def runTest(self):
+        self.check_output_like([
+            'Using ' + self.args[-1],
+            'test_it (abcd_package.test_d.D) ... ok',
+            'test_it (abcd_package.test_c.C) ... ok',
+            'test_it (abcd_package.test_a.A) ... ok',
+            'test_it (abcd_package.test_b.B) ... ok'
+        ])
+
+
 class ShuffledCasesInModuleTest(RandomlyPluginTester, TestCase):
     """
     Check that the cases inside a module are shuffled.
