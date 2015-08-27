@@ -57,7 +57,7 @@ requirements = [
 
 setup(
     name='nose-randomly',
-    version='1.0.0',
+    version=version,
     description="Nose plugin to randomly order tests and control random.seed.",
     long_description=readme + '\n\n' + history,
     author="Adam Johnson",
