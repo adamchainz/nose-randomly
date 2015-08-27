@@ -3,6 +3,12 @@
 History
 -------
 
+1.1.0 (pending)
+---------------
+
+* Reset the random seed at the start of nose test contexts (TestCases
+  etc.) too
+
 1.0.0 (2015-07-23)
 ------------------
 

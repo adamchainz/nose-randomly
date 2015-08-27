@@ -50,7 +50,7 @@ class RandomlyPlugin(Plugin):
             '--randomly-dont-reset-seed', action='store_false',
             dest='reset_seed', default=True,
             help="""Stop nose-randomly from resetting random.seed() at the
-                    start of every test."""
+                    start of every test context (TestCase) and test."""
         )
 
     def configure(self, options, conf):
@@ -76,7 +76,13 @@ class RandomlyPlugin(Plugin):
                 file=self.output_stream
             )
 
+    def startContext(self, context):
+        self.reset_random_seed()
+
     def startTest(self, test):
+        self.reset_random_seed()
+
+    def reset_random_seed(self):
         if not self.enabled:
             return
 

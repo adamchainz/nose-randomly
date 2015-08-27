@@ -167,6 +167,24 @@ class RandomSeedTest(RandomlyPluginTester, TestCase):
         ])
 
 
+class RandomSeedClassTest(RandomlyPluginTester, TestCase):
+    """
+    Check that the random seed is being set for any code that might run in
+    setUpClass too.
+    """
+    args = ['-v', '--randomly-seed=1']
+    fixture_suite = 'random_number_class.py'
+
+    def runTest(self):
+        # Just runs the test - the remaining logic is in the file itself,
+        # checking that random.random() gives result it should when seed = 1
+        self.check_output_like([
+            'Using --randomly-seed=1',
+            'test_random_again (random_number_class.TestsAgain) ... ok',
+            'test_random (random_number_class.Tests) ... ok',
+        ])
+
+
 class DontRandomSeedTest(RandomlyPluginTester, TestCase):
     """
     Check that the random seed is being set.
