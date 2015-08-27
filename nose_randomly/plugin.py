@@ -87,10 +87,17 @@ class RandomlyPlugin(Plugin):
             return
 
         if self.options.reset_seed:
-            random.seed(self.options.seed)
+            random.setstate(self.random_state)
 
             if have_factory_boy:
-                factory_set_random_state(random.getstate())
+                factory_set_random_state(self.random_state)
+
+    @property
+    def random_state(self):
+        if not hasattr(self, '_random_state'):
+            random.seed(self.options.seed)
+            self._random_state = random.getstate()
+        return self._random_state
 
     def prepareTestLoader(self, loader):
         """
