@@ -87,8 +87,8 @@ You can disable behaviours you don't like with the following flags:
   the start of every test
 
 
-History
--------
+Background
+----------
 
 `nose` has an `unmerged pull request
 <https://code.google.com/p/python-nose/issues/detail?id=255>`_ from 2009 to add
