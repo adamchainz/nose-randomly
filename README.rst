@@ -26,6 +26,9 @@ All of these features are on by default but can be disabled with flags.
   `factory boy <https://factoryboy.readthedocs.org/en/latest/reference.html>`_
   is installed, its random state is reset at the start of every test. This
   allows for repeatable use of its random 'fuzzy' features.
+* If `faker <https://pypi.python.org/pypi/fake-factory>`_ is installed, its
+  random state is reset at the start of every test. This is also for repeatable
+  fuzzy data in tests - factory boy uses faker for lots of data.
 
 About
 -----

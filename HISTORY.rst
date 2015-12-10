@@ -3,6 +3,11 @@
 History
 -------
 
+1.2.0 (pending)
+---------------
+
+* Reset the random state for Faker (pip package ``fake-factory``) too
+
 1.1.0 (2015-08-27)
 ------------------
 

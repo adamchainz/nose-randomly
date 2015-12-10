@@ -8,12 +8,19 @@ import sys
 from nose.plugins import Plugin
 from nose.suite import ContextList
 
+# factory-boy
 try:
     from factory.fuzzy import set_random_state as factory_set_random_state
     have_factory_boy = True
 except ImportError:
     have_factory_boy = False
 
+# fake-factory
+try:
+    from faker.generator import random as faker_random
+    have_faker = True
+except ImportError:
+    have_faker = False
 
 # Compat
 if sys.version_info[0] == 2:  # Python 2
@@ -91,6 +98,9 @@ class RandomlyPlugin(Plugin):
 
             if have_factory_boy:
                 factory_set_random_state(self.random_state)
+
+            if have_faker:
+                faker_random.setstate(self.random_state)
 
     @property
     def random_state(self):
