@@ -47,6 +47,14 @@ factory boy's fuzzy values. This is good for ensuring that tests specify the
 data they need and that the tested system is not affected by any data that is
 filled in randomly due to not being specified.
 
+Requirements
+------------
+
+Tested with:
+
+* Python 2.7, 3.4, 3.5
+* The latest version of Nose
+
 Usage
 -----
 
