@@ -8,7 +8,7 @@ nose-randomly
 .. image:: https://img.shields.io/pypi/v/nose-randomly.svg
         :target: https://pypi.python.org/pypi/nose-randomly
 
-.. figure:: https://raw.github.com/adamchainz/nose-randomly/master/logo.png
+.. figure:: https://raw.githubusercontent.com/adamchainz/nose-randomly/master/logo.png
    :scale: 50%
    :alt: Randomness power.
 
