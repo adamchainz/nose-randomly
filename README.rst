@@ -8,6 +8,9 @@ nose-randomly
 .. image:: https://img.shields.io/pypi/v/nose-randomly.svg
         :target: https://pypi.python.org/pypi/nose-randomly
 
+.. figure:: https://raw.github.com/adamchainz/nose-randomly/master/logo.png
+   :scale: 50%
+   :alt: Randomness power.
 
 Nose plugin to randomly order tests and control ``random.seed``.
 
@@ -109,3 +112,11 @@ works quite well but I found that since it replaces all of the test loading
 machinery inside `nose`, it can interact badly with other plugins. This plugin
 was developed as a thinner layer to achieve the same thing, plus the random
 seed restting which was not available before.
+
+
+License
+-------
+
+* BSD licensed, see LICENSE file
+* Logo by Christian Mohr from the Noun Project
+  (`link <https://thenounproject.com/search/?q=dice&i=110905>`_).
