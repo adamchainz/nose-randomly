@@ -24,7 +24,8 @@ All of these features are on by default but can be disabled with flags.
 * Randomly shuffles the test functions inside a ``TestCase`` when loading it.
 * Resets ``random.seed()`` at the start of every test case and test to a fixed
   number - this defaults to ``time.time()`` from the start of your test run,
-  but you can pass in ``--random-seed`` to repeat a randomness-induced failure.
+  but you can pass in ``--randomly-seed`` to repeat a randomness-induced
+  failure.
 * If
   `factory boy <https://factoryboy.readthedocs.org/en/latest/reference.html>`_
   is installed, its random state is reset at the start of every test. This
