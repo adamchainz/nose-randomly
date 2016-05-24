@@ -113,7 +113,7 @@ random ordering functionality. This is available in plugin format in the
 works quite well but I found that since it replaces all of the test loading
 machinery inside `nose`, it can interact badly with other plugins. This plugin
 was developed as a thinner layer to achieve the same thing, plus the random
-seed restting which was not available before.
+seed resetting which was not available before.
 
 
 License
