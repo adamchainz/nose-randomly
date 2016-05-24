@@ -12,7 +12,8 @@ nose-randomly
    :scale: 50%
    :alt: Randomness power.
 
-Nose plugin to randomly order tests and control ``random.seed``.
+Nose plugin to randomly order tests and control ``random.seed``. (Also
+available `for pytest <https://github.com/adamchainz/pytest-randomly>`_).
 
 Features
 --------
