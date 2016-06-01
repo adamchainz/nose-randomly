@@ -6,6 +6,11 @@ History
 Pending release
 ---------------
 
+* New release notes here
+
+1.2.1 (2016-06-01)
+------------------
+
 * Support test generators.
 
 1.2.0 (2015-12-10)
