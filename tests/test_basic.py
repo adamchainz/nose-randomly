@@ -198,3 +198,20 @@ class DontRandomSeedTest(RandomlyPluginTester, TestCase):
         self.check_output_like([
             'test_not_reseeded_to_100 (random_seed_not_100.Tests) ... ok'
         ])
+
+
+class GeneratorTest(RandomlyPluginTester, TestCase):
+    """
+    Check generator support.
+    """
+    args = ['-v', '--randomly-seed=83']
+    fixture_suite = 'abcd_generator.py'
+
+    def runTest(self):
+        self.check_output_like([
+            "Using --randomly-seed=83",
+            "abcd_generator.test_generator('A',) ... ok",
+            "abcd_generator.test_generator('B',) ... ok",
+            "abcd_generator.test_generator('C',) ... ok",
+            "abcd_generator.test_generator('D',) ... ok",
+        ])

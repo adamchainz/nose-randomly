@@ -137,11 +137,11 @@ class RandomlyPlugin(Plugin):
                 if options.shuffle_modules:
                     orig_suiteClass = self.suiteClass
 
-                    def hackSuiteClass(tests):
+                    def hackSuiteClass(tests, **kwargs):
                         if isinstance(tests, ContextList):
                             random.seed(options.seed)
                             random.shuffle(tests.tests)
-                        return orig_suiteClass(tests)
+                        return orig_suiteClass(tests, **kwargs)
 
                     self.suiteClass = hackSuiteClass
                 suite = super(ShuffledLoader, self).loadTestsFromModule(
@@ -160,12 +160,12 @@ class RandomlyPlugin(Plugin):
                 if options.shuffle_cases:
                     orig_suiteClass = self.suiteClass
 
-                    def hackSuiteClass(tests):
+                    def hackSuiteClass(tests, **kwargs):
                         if isinstance(tests, map_return_type):
                             tests = list(tests)
                             random.seed(options.seed)
                             random.shuffle(tests)
-                        return orig_suiteClass(tests)
+                        return orig_suiteClass(tests, **kwargs)
 
                     self.suiteClass = hackSuiteClass
 

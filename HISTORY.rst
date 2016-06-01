@@ -3,6 +3,11 @@
 History
 -------
 
+Pending release
+---------------
+
+* Support test generators.
+
 1.2.0 (2015-12-10)
 ------------------
 
