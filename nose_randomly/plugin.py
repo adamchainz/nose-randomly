@@ -2,8 +2,8 @@
 from __future__ import division, print_function, unicode_literals
 
 import random
-import time
 import sys
+import time
 
 from nose.plugins import Plugin
 from nose.suite import ContextList
