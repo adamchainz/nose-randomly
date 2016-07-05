@@ -30,31 +30,31 @@ else:
 
 
 class RandomlyPlugin(Plugin):
-    name = 'randomly'
+    name = str('randomly')
 
     def options(self, parser, env):
         """Register commandline options.
         """
         super(RandomlyPlugin, self).options(parser, env)
         parser.add_option(
-            '--randomly-seed', action='store', dest='seed',
+            str('--randomly-seed'), action='store', dest='seed',
             default=int(time.time()), type=int,
             help="""Set the seed that nose-randomly uses. Default behaviour:
                     use time.time()"""
         )
         parser.add_option(
-            '--randomly-dont-shuffle-modules', action='store_false',
+            str('--randomly-dont-shuffle-modules'), action='store_false',
             dest='shuffle_modules', default=True,
             help="Stop nose-randomly from shuffling the tests inside modules"
         )
         parser.add_option(
-            '--randomly-dont-shuffle-cases', action='store_false',
+            str('--randomly-dont-shuffle-cases'), action='store_false',
             dest='shuffle_cases', default=True,
             help="""Stop nose-randomly from shuffling the tests inside TestCase
                     classes"""
         )
         parser.add_option(
-            '--randomly-dont-reset-seed', action='store_false',
+            str('--randomly-dont-reset-seed'), action='store_false',
             dest='reset_seed', default=True,
             help="""Stop nose-randomly from resetting random.seed() at the
                     start of every test context (TestCase) and test."""

@@ -7,6 +7,8 @@ Pending release
 ---------------
 
 * New release notes here
+* Fixed to work with ``python setup.py nosetests`` on Python 2 due to issue
+  with ``unicode`` not working with ``distutils.fancy_getopt``.
 
 1.2.1 (2016-06-01)
 ------------------

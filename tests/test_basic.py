@@ -215,3 +215,42 @@ class GeneratorTest(RandomlyPluginTester, TestCase):
             "abcd_generator.test_generator('C',) ... ok",
             "abcd_generator.test_generator('D',) ... ok",
         ])
+
+
+class SetuptoolsIntegrationTest(TestCase):
+    """
+    Ensure nose-randomly works when Nose is invoked via setuptools.
+    See https://github.com/adamchainz/nose-randomly/issues/11
+    """
+    def runTest(self):
+        import nose.commands
+
+        from setuptools import Command
+        from distutils.dist import Distribution
+        from nose.config import Config, user_config_files
+        from nose.plugins import PluginManager
+
+        class DummyNose(Command):
+            description = "Dummy"
+            manager = PluginManager()
+            manager.plugins = [RandomlyPlugin()]
+            __config = Config(
+                files=user_config_files(),
+                plugins=manager)
+            __parser = __config.getParser()
+            user_options = nose.commands.get_user_options(__parser)
+
+            def initialize_options(self):
+                pass
+
+            def finalize_options(self):
+                pass
+
+            def run(self):
+                pass
+
+        dist = Distribution({'cmdclass': {'nosetests': DummyNose}})
+        dist.script_args = ['nosetests']
+
+        # This test should merely not throw an exception
+        dist.parse_command_line()
