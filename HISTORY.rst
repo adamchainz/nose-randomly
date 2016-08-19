@@ -7,6 +7,10 @@ Pending release
 ---------------
 
 * New release notes here
+
+1.2.3 (2016-08-19)
+------------------
+
 * Fixed output so the random seed is always output when the plugin is enabled,
   not just when resetting ``random.seed()`` at the start of tests. Thanks
   @amygdalama.
