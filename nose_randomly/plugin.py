@@ -76,12 +76,10 @@ class RandomlyPlugin(Plugin):
             return
 
         self.output_stream = stream
-
-        if self.options.reset_seed:
-            print(
-                "Using --randomly-seed={seed}".format(seed=self.options.seed),
-                file=self.output_stream
-            )
+        print(
+            "Using --randomly-seed={seed}".format(seed=self.options.seed),
+            file=self.output_stream
+        )
 
     def startContext(self, context):
         self.reset_random_seed()

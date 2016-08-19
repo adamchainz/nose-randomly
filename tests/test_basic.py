@@ -189,13 +189,14 @@ class DontRandomSeedTest(RandomlyPluginTester, TestCase):
     """
     Check that the random seed is being set.
     """
-    args = ['-v', '--randomly-dont-reset-seed']
+    args = ['-v', '--randomly-seed=1', '--randomly-dont-reset-seed']
     fixture_suite = 'random_seed_not_100.py'
 
     def runTest(self):
         # Just runs the test - the remaining logic is in the file itself,
         # checking that random.random() does not look like the seed is 100
         self.check_output_like([
+            'Using --randomly-seed=1',
             'test_not_reseeded_to_100 (random_seed_not_100.Tests) ... ok'
         ])
 
