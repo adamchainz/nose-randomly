@@ -22,6 +22,12 @@ try:
 except ImportError:
     have_faker = False
 
+try:
+    from numpy import random as np_random
+    have_numpy = True
+except ImportError:
+    have_numpy = False
+
 # Compat
 if sys.version_info[0] == 2:  # Python 2
     map_return_type = list
@@ -100,12 +106,25 @@ class RandomlyPlugin(Plugin):
             if have_faker:
                 faker_random.setstate(self.random_state)
 
+            if have_numpy:
+                np_random.set_state(self.random_state_numpy)
+
     @property
     def random_state(self):
         if not hasattr(self, '_random_state'):
             random.seed(self.options.seed)
             self._random_state = random.getstate()
         return self._random_state
+
+    @property
+    def random_state_numpy(self):
+        # numpy uses its own random state implementation.
+        if not have_numpy:
+            raise RuntimeError('numpy not installed')
+        if not hasattr(self, '_random_state_numpy'):
+            np_random.seed(self.options.seed)
+            self._random_state_numpy = np_random.get_state()
+        return self._random_state_numpy
 
     def prepareTestLoader(self, loader):
         """

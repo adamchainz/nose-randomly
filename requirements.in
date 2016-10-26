@@ -3,4 +3,5 @@ flake8
 isort
 multilint
 nose
+numpy
 Pygments

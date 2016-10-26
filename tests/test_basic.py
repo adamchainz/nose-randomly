@@ -167,6 +167,22 @@ class RandomSeedTest(RandomlyPluginTester, TestCase):
         ])
 
 
+class RandomSeedTestNumPy(RandomlyPluginTester, TestCase):
+    """
+    Check that the random seed is being set for numpy.
+    """
+    args = ['-v', '--randomly-seed=1']
+    fixture_suite = 'random_number_numpy.py'
+
+    def runTest(self):
+        # Just runs the test - the remaining logic is in the file itself,
+        # checking that np.random.rand() gives result it should when seed = 1
+        self.check_output_like([
+            'Using --randomly-seed=1',
+            'test_random (random_number_numpy.Tests) ... ok'
+        ])
+
+
 class RandomSeedClassTest(RandomlyPluginTester, TestCase):
     """
     Check that the random seed is being set for any code that might run in

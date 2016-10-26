@@ -11,3 +11,4 @@ Contributors
 ------------
 
 * Étienne BERSAC <bersace03@gmail.com>
+* Martin K. Scherer @marscher
