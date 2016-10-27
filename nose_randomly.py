@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -*- encoding:utf-8 -*-
 from __future__ import division, print_function, unicode_literals
 
@@ -33,6 +34,9 @@ if sys.version_info[0] == 2:  # Python 2
     map_return_type = list
 else:
     map_return_type = map
+
+
+__version__ = '1.2.4'
 
 
 class RandomlyPlugin(Plugin):

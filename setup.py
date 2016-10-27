@@ -10,24 +10,15 @@ except ImportError:
     from distutils.core import setup
 
 
-def get_version(package):
+def get_version(filename):
     """
-    Return package version as listed in `__version__` in `__init__.py`.
+    Return package version as listed in `__version__` in `filename`.
     """
-    init_py = open(os.path.join(package, '__init__.py')).read()
+    init_py = open(filename).read()
     return re.search("__version__ = ['\"]([^'\"]+)['\"]", init_py).group(1)
 
 
-def get_packages(package):
-    """
-    Return root package and all sub-packages.
-    """
-    return [dirpath
-            for dirpath, dirnames, filenames in os.walk(package)
-            if os.path.exists(os.path.join(dirpath, '__init__.py'))]
-
-
-version = get_version('nose_randomly')
+version = get_version('nose_randomly.py')
 
 
 if sys.argv[-1] == 'publish':
@@ -48,10 +39,6 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
-requirements = [
-    'nose',
-]
-
 setup(
     name='nose-randomly',
     version=version,
@@ -60,9 +47,11 @@ setup(
     author="Adam Johnson",
     author_email='me@adamj.eu',
     url='https://github.com/adamchainz/nose-randomly',
-    packages=get_packages('nose_randomly'),
+    py_modules=['nose_randomly'],
     include_package_data=True,
-    install_requires=requirements,
+    install_requires=[
+        'nose',
+    ],
     license="BSD",
     zip_safe=False,
     keywords='nose, random, randomize, randomise, randomly',
