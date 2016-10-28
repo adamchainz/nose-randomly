@@ -7,6 +7,9 @@ Pending release
 ---------------
 
 * New release notes here
+* Set a high plugin score to ensure that ``nose-randomly`` is loaded before
+  other plugins. This fixes a bug where randomization would disapper when using
+  the ``doctests`` plugin that is included with Nose.
 
 1.2.4 (2016-10-27)
 ------------------
