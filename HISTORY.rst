@@ -7,6 +7,7 @@ Pending release
 ---------------
 
 * New release notes here
+* Dropped Python 2.6 compatibility, as upstream dependency NumPy did.
 
 1.2.5 (2016-10-28)
 ------------------
