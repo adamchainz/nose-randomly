@@ -57,7 +57,7 @@ Requirements
 
 Tested with:
 
-* Python 2.7, 3.4, 3.5
+* Python 2.7, 3.6
 * The latest version of Nose
 
 Usage
