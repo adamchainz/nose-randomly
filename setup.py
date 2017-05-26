@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import codecs
 import re
 
 from setuptools import setup
@@ -9,16 +10,17 @@ def get_version(filename):
     """
     Return package version as listed in `__version__` in `filename`.
     """
-    init_py = open(filename).read()
+    with codecs.open(filename, 'r', 'utf-8') as fp:
+        init_py = fp.read()
     return re.search("__version__ = ['\"]([^'\"]+)['\"]", init_py).group(1)
 
 
 version = get_version('nose_randomly.py')
 
-with open('README.rst') as readme_file:
+with codecs.open('README.rst', 'r', 'utf-8') as readme_file:
     readme = readme_file.read()
 
-with open('HISTORY.rst') as history_file:
+with codecs.open('HISTORY.rst', 'r', 'utf-8') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
 setup(
