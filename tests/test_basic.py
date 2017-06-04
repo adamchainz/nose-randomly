@@ -6,6 +6,7 @@ import sys
 from unittest import TestCase
 
 from nose.plugins import PluginTester
+
 from nose_randomly import RandomlyPlugin
 
 fixtures = os.path.join(os.path.dirname(__file__), 'fixtures')
