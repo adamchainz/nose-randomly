@@ -40,7 +40,7 @@ setup(
         'nose.plugins.0.10': ['randomly = nose_randomly:RandomlyPlugin'],
     },
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
+        'Development Status :: 7 - Inactive',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',

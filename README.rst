@@ -12,6 +12,15 @@ nose-randomly
    :scale: 50%
    :alt: Randomness power.
 
+----
+
+**Unmaintained:** I'm no longer maintaining this package because I haven't used
+nose for some time, and nose itself has not seen a release since 2015, nor a
+commit since 2016 (nearly 3 years at time of writing). If you want to continue
+maintenance please contact me.
+
+----
+
 Nose plugin to randomly order tests and control ``random.seed``. (Also
 available `for pytest <https://github.com/adamchainz/pytest-randomly>`_).
 
