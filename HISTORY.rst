@@ -6,6 +6,9 @@ History
 Pending release
 ---------------
 
+1.2.6 (2019-02-07)
+------------------
+
 * Update PyPI development status as inactive. This package is no longer
   maintained, see README.rst.
 * Dropped Python 2.6 compatibility, as upstream dependency NumPy did.

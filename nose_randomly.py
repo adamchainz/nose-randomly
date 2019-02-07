@@ -35,7 +35,7 @@ else:
     map_return_type = map
 
 
-__version__ = '1.2.5'
+__version__ = '1.2.6'
 
 
 class RandomlyPlugin(Plugin):
